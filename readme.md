@@ -4,8 +4,8 @@ salaUCX
 Esta aplicación es un borrador o primera version de aproximación a la solución de control de dispositivos AV en un aula docente. 
 Abre un frontend en el puerto 8088, y mediante la opcion de videoconferencia se conecta a los devices definidos en db/devices.json.
 
-* para instalar: ```bash npm install ```
-* para ejecutar: ```bash node ./app ```
+* para instalar: ``` npm install ```
+* para ejecutar: ``` node ./app ```
 
 Los componentes son los siguientes:
 ```bash
