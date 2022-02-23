@@ -1,1 +1,1 @@
-{"devices":[{"driver":"dmp64plus","ip":"192.168.42.132","port":23}]}
+{"devices":[{"driver":"ud8cr","ip":"localhost","port":12345},{"driver":"ptc310h","ip":"192.168.42.137","port":52381},{"driver":"eb2250u","ip":"localhost","port":3629},{"driver":"mmx4x2","ip":"192.168.42.133","port":6107}]}
