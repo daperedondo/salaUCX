@@ -1,0 +1,20 @@
+{
+  "name": "CommDevices",
+  "version": "1.0.0",
+  "description": "WebApp. Con WebSockets para la Gestión de dispositivos AV para su comunicación mediante TCP y UDP.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "David Pérez Redondo",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "form-data": "^4.0.0",
+    "qrcode": "^1.5.0",
+    "sharp": "^0.29.3",
+    "socket.io": "^4.4.0"
+  }
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ControlAula - URJC</title>
+    <meta name="description" content="Node-RED UI Builder - VueJS + bootstrap-vue version">
+
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="index.css" media="all">
+    <link type="text/css" rel="stylesheet" href="public/css/botonera.css" media="all">
+</head>
+<!--Carga inicial del estado de los botones-->
+<body>
+<!--Inicio de la aplicacion VUE-->
+<div id="appInit" v-cloak>
+    <!--Barra superior-->
+    <div class="topBar">
+        <div class="row no-gutters">
+            <div class="col-1 d-flex justify-content-start">
+            </div>
+            <div class="col-9 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <img class="imgBtnT" src="public/images/Botones/img-modo-escenas-simplificada.png" alt="icono-escenas" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <input type="image" class="imgBtnInfo" src="public/images/Botones/boton-ayuda.png" alt="boton-ayuda" onclick="btnAyuda()" />
+                <input type="image" class="imgBtnClose" src="public/images/Botones/boton-apagar.png" alt="boton-cerrar" onclick="btnInicio()" />
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+    <!--Contenido de la aplicacion-->
+    <b-container id="app_container">
+        <div class="row d-flex justify-content-center ">
+            <h4>Hola, ¿qué deseas hacer?</h4>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <input type="image" class="" src="public/images/Botones/boton-modo-solo-audio.png" alt="boton-soloAudio" onclick="btnSoloAudio()" />
+            <input type="image" class="" src="public/images/Botones/boton-modo-proyectar.png" alt="boton-proyectar" onclick="btnProyectar()" />
+            <input type="image" class="" src="public/images/Botones/boton-modo-docencia-hibrida.png" alt="boton-docenciaHibrida" onclick="btnDocenciaHibrida()" />
+        </div>
+        <footer class="">
+            <div class="row no-gutters d-flex justify-content-end">
+                <input type="image" class="imgBtnDown " src="public/images/Botones/boton-asistente-configuracion.png" alt="boton-soloAudio" onclick="" />
+            </div>       
+        </footer>
+    </b-container>
+    <!---->
+    <!---->
+</div>
+<!---->
+
+    <!-- These MUST be in the right order. Note no leading / -->
+    <!-- REQUIRED: Socket.IO is loaded only once for all instances
+                     Without this, you don't get a websocket connection -->
+                     <script src="./socket.io/socket.io.js"></script>
+                     <script src="public/js/loadView.js"></script>
+                     <script src="public/js/botonera.js"></script>
+                     <script src="public/js/funciones.js"></script>
+                     <script src="index.js"></script>
+                  
+                 
+</body>
+
+</html>

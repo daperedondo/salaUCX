@@ -1,0 +1,152 @@
+<!doctype html>
+<!-- Note that adding an appcache really speeds things up after the first load
+    You need to amend the appcache file to meet your needs.
+    Don't forget to change the appcache file if you update ANY
+    of the files in it otherwise the old versions will ALWAYS be used.
+<html lang="en" manifest="./uibuilder.appcache">
+-->
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<!--
+    This is the default, template html for uibuilder.
+    It is meant to demonstrate the use of VueJS & bootstrap-vue to dynamically
+    update the ui based on incoming/outgoing messages from/to the
+    Node-RED server.
+
+    You will want to alter this to suite your own needs. To do so,
+    copy this file to <userDir>/uibuilder/<url>/src.
+-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ControlAula - URJC</title>
+    <meta name="description" content="Node-RED UI Builder - VueJS + bootstrap-vue version">
+
+    <meta name="theme-color" content="#3f51b5">
+
+    <!-- Used if adding to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Node-RED UI Builder">
+
+    <!-- Used if adding to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Node-RED UI Builder">
+
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="index.css" media="all">
+    <link type="text/css" rel="stylesheet" href="public/css/botonera.css" media="all">
+</head>
+<!--Carga inicial del estado de los botones-->
+<body onload="socket.emit('getSource', '');console.log('getSource');">
+<!--Inicio de la aplicacion VUE-->
+<div id="appInit" v-cloak>
+    <!--Barra superior-->
+    <div class="topBar">
+        <div class="row no-gutters">
+            <div class="col-1 d-flex justify-content-start">
+                <input type="image" class="imgBtnBack" src="public/images/Botones/boton-atras.png" alt="boton-atras" onclick="history.back()" />
+            </div>
+            <div class="col-9 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <img class="imgBtnT" src="public/images/Botones/img-modo-docencia-hibrida.png" alt="icono-soloAudio" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <input type="image" class="imgBtnInfo" src="public/images/Botones/boton-ayuda.png" alt="boton-ayuda" onclick="btnAyuda()" />
+                <input type="image" class="imgBtnClose" src="public/images/Botones/boton-apagar.png" alt="boton-cerrar" onclick="btnInicio()" />
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+    <!--Contenido de la aplicacion-->
+    <b-container id="app_container">
+        <div class="row rowApp no-gutters">
+            <div class="container col-10">
+                <div class="row no-gutters">
+                    <div class="col-5">
+                        <img class="imgBtnT" src="public/images/Botones/img-modo-uso.PNG" alt="icono-modo-uso" />
+                    </div>
+                    <div class="col-7 d-flex justify-content-end">
+                        <input type="image" class="imgBtnMT" src="public/images/Botones/boton-modo-solo-audio.png" alt="boton-soloAudio" id= "Btn_ON_SoloAudio" v-on:click='UI_CTRL_evt("CTRL_STATE", "soloAudio")'  onclick="btnSoloAudio()" />
+                        <input type="image" class="imgBtnMT" src="public/images/Botones/boton-modo-proyectar.png" alt="boton-proyectar" id= "Btn_ON_Proyectar" v-on:click='UI_CTRL_evt("CTRL_STATE", "proyectar")' onclick="btnProyectar()" />
+                        <input type="image" class="imgBtnMT" src="public/images/Botones/boton-modo-docencia-hibrida-on.png" alt="boton-docenciaHibrida" id= "Btn_ON_DocenciaHibrida" v-on:click='UI_CTRL_evt("CTRL_STATE", "docenciaHibrida")' onclick="btnDocenciaHibrida()" />
+                    </div>
+                </div>
+                <div class="container no-gutters">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-3 no-gutters">
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-grabar.png" alt="boton-encender-proyectar"id= "Gr_REC_Btn_Rec" disabled v-on:click='UI_CTRL_evt("CTRL_REC", "on")' onclick="btnDocenciaHibrida()" /> 
+                        </div>
+                        <div class="col-3 no-gutters">
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-encender-proyector.png" alt="boton-encender-proyectar" id= "Gr_PROY_Btn_Pwr" v-on:click='UI_CTRL_evt("CTRL_PROY", "{  \"pwr\": \"on\" }")' onclick="encenderProyector()" />
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-apagar-proyector.png" alt="boton-encender-proyectar" id= "Gr_PROY_Btn_Pwr_on" v-on:click='UI_CTRL_evt("CTRL_PROY", "{  \"pwr\": \"off\" }")' onclick="quitarProyector()" hidden />
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-congelar.png" alt="boton-congelar" id= "Gr_PROY_Btn_Freeze" v-on:click='UI_CTRL_evt("CTRL_PROY", "{ \"freeze\": \"on\" }")' onclick="encenderFreeze()" />
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-congelar-on.png" alt="boton-congelar" id= "Gr_PROY_Btn_Freeze_on" v-on:click='UI_CTRL_evt("CTRL_PROY", "{ \"freeze\": \"off\" }")' onclick="quitarFreeze()" hidden />
+                            <p>Techo aula</p>
+                        </div>
+                        <div class="col-3 no-gutters">
+                            <input type="image" class="imgBtnMid" src="public/images/Botones/boton-seleccionar-fuente.png" alt="boton-proyectar" onclick="btnSeleccionarFuente()" />
+                            <!--p>Fuente seleccionada:</p-->
+                            <div id="matrix_source">Fuente seleccionada: </div>
+                        </div>
+                        <div class="col-3 no-gutters">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-2 colRight">
+                <div class="row d-flex justify-content-center">
+                    <img class="imgBtnMid" src="public/images/Botones/img-volumen-audio.png" alt="icono-volumen-audio"/>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <input type="range" id="Gr_VOL_Btn_Volume" class="slider rotation range-margin" min="0" max="100" value="0" step="1" id= "Gr_VOL_Btn_Volume" v-on:change='UI_CTRL_evt("CTRL_VOL", "{ \"level\": "+useGetSliVolume()+" }")' onchange="rangeStyle()" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center rightBar-margin">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol+.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Inc" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"inc_level\": 5 }")' onclick="" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol-.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Dec" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"dec_level\": 5 }")' onclick="" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol-mute.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Mute" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"mute\": \"on\" }")' onclick="encenderMute()" />
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol-mute-on.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Mute_on" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"mute\": \"off\" }")' onclick="quitarMute()" hidden/>
+                </div>
+            </div>
+        </div>
+        <footer class="bottonBar">
+            <div class="row no-gutters">
+                <div class="d-flex justify-content-end col-10">
+                    <input type="image" class="imgBtnDownH " src="public/images/Botones/boton-configuracion-teams.png" alt="boton-asistente" onclick="btnTeams()" />
+                    <input type="image" class="imgBtnDownH " src="public/images/Botones/boton-control-manual.png" alt="boton-asistente" onclick="btnCtrlManual()" />
+                </div>
+                <div class="col-2">
+                </div>
+            </div>        
+        </footer>
+    </b-container>
+    <!---->
+    <!---->
+</div>
+<!---->
+<script src="./socket.io/socket.io.js"></script>
+<script src="public/js/loadView.js"></script>
+<script src="public/js/botonera.js"></script>
+<script src="public/js/funciones.js"></script>
+
+<script src="index.js"></script>
+
+<!--script>
+    socket.emit('getSource', '');
+</script-->
+
+</body>
+</html>

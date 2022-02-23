@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ControlAula - URJC</title>
+    <!--meta name="description" content="Node-RED UI Builder - VueJS + bootstrap-vue version"-->
+ 
+    <link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="index.css" media="all">
+    <link type="text/css" rel="stylesheet" href="public/css/botonera.css" media="all">
+</head>
+<body>
+
+   <div id="appInit" v-cloak class="background-iniciar">
+        <b-container id="app_container">
+            <div class="container abs-center">
+
+                <div class="row align-items-center">
+                    <div class="col text-center">
+                        <img src="public/images/URJ_logo_Color_POS.png" class="img-fluid margin-index-img" alt="Logo">
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col text-center">
+                        <button type="button" class="button-bottom" id= "Btn_Inicio" >Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </b-container>
+    </div>
+
+    
+
+
+    <!-- These MUST be in the right order. Note no leading / -->
+    <!-- REQUIRED: Socket.IO is loaded only once for all instances
+                     Without this, you don't get a websocket connection -->
+
+    <!--script src="public/js/loadView.js"></script>
+    <script src="public/js/botonera.js"></script>
+    <script src="public/js/funciones.js"></script-->
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
+ 
+
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<!-- Note that adding an appcache really speeds things up after the first load
+    You need to amend the appcache file to meet your needs.
+    Don't forget to change the appcache file if you update ANY
+    of the files in it otherwise the old versions will ALWAYS be used.
+<html lang="en" manifest="./uibuilder.appcache">
+-->
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<!--
+    This is the default, template html for uibuilder.
+    It is meant to demonstrate the use of VueJS & bootstrap-vue to dynamically
+    update the ui based on incoming/outgoing messages from/to the
+    Node-RED server.
+
+    You will want to alter this to suite your own needs. To do so,
+    copy this file to <userDir>/uibuilder/<url>/src.
+-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ControlAula - URJC</title>
+    <meta name="description" content="Node-RED UI Builder - VueJS + bootstrap-vue version">
+
+    <link rel="icon" href="./images/node-blue.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#3f51b5">
+
+    <!-- Used if adding to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Node-RED UI Builder">
+
+    <!-- Used if adding to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Node-RED UI Builder">
+
+    <!-- Homescreen icons for Apple mobile use if required
+        <link rel="apple-touch-icon" href="./images/manifest/icon-48x48.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="./images/manifest/icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="96x96" href="./images/manifest/icon-96x96.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="./images/manifest/icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="192x192" href="./images/manifest/icon-192x192.png">
+    -->
+
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="index.css" media="all">
+    <link type="text/css" rel="stylesheet" href="public/css/botonera.css" media="all">
+</head>
+<!--Carga inicial del estado de los botones-->
+<body>
+<!--Inicio de la aplicacion VUE-->
+<div id="appInit" v-cloak>
+    <!--Barra superior-->
+    <div class="topBar">
+        <div class="row no-gutters">
+            <div class="col-1 d-flex justify-content-start">
+                <input type="image" class="imgBtnBack" src="public/images/Botones/boton-cerrar.png" alt="boton-cerrar" onclick="history.back()" />
+            </div>
+            <div class="col-9 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <img class="imgBtnT" src="public/images/Botones/img-modo-control-camara.png" alt="icono-soloAudio" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <input type="image" class="imgBtnInfo" src="public/images/Botones/boton-ayuda.png" alt="boton-ayuda" onclick="btnAyuda()" />
+                <input type="image" class="imgBtnClose" src="public/images/Botones/boton-apagar.png" alt="boton-cerrar" onclick="" />
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+    <!--Contenido de la aplicacion-->
+    <b-container id="app_container">
+        <div class="row rowApp no-gutters">
+            <div class="container col-10">
+                <div class="row no-gutters rowControlCamera d-flex align-items-center">
+                    <div class="col-6 d-flex justify-content-center align-items-center">
+                        <img class="" src="public/images/Botones/icono-control-camara-camara.png" alt="icono-camara" />
+                        <input type="image" class="imgBtnMT" src="public/images/Botones/boton-toogle-OFF.png" id= "Gr_CAM_Btn_Cam" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"cam\":  \"on\" }")' alt="boton-cerrar" onclick="" />
+                    </div>
+                    <div class="col-6 d-flex justify-content-center align-items-center">
+                        <img class="" src="public/images/Botones/icono-control-camara-seguimiento.png" alt="icono-seguimiento" />
+                        <input type="image" class="imgBtnMT" src="public/images/Botones/boton-toogle-OFF.png" alt="boton-cerrar" id= "Gr_CAM_Btn_Tracking" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"tracking\":  \"on\" }")' onclick="" />
+                    </div>
+                </div>
+                <div class="container ">
+                    <div class="row imgMarginTop">
+                        <div class="col-6">
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-center">
+                            <img class="imgPlanoCamara" src="public/images/Botones/img-plano-camara.png" alt="plano-camara" />
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="container">
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlManual" src="public/images/Botones/boton-control-manual-arriba.png" alt="boton-control-arriba" id= "Gr_CAM_Btn_PantilgUp" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"pantil\": \"up\"  }")' onclick="" />
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlManual" src="public/images/Botones/boton-control-manual-izquierda.png" alt="boton-control-izquierda" id= "Gr_CAM_Btn_PantilgLeft" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"pantil\": \"left\"  }")' onclick="" />
+                                    <img class="imgBtnCtrlManual" src="public/images/Botones/icono-control-camara-camara.png" alt="icono-camara" />
+                                    <input type="image" class="imgBtnCtrlManual" src="public/images/Botones/boton-control-manual-derecha.png" alt="boton-control-derecha" id= "Gr_CAM_Btn_PantilgRigth" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"pantil\": \"rigth\"  }")' onclick="" />
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlManual" src="public/images/Botones/boton-control-manual-abajo.png" alt="boton-control-abajo" id= "Gr_CAM_Btn_PantilgDown" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"pantil\": \"down\"  }")' onclick="" />
+                                </div>
+                                <div class="row imgMarginTop d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlManualZoom" src="public/images/Botones/boton-zoom-menos.png" alt="boton-control-menos" id= "Gr_CAM_Btn_ZoomOUT" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"zoom\": \"out\"  }")' onclick="" />
+                                    <input type="image" class="imgBtnCtrlManualZoom" src="public/images/Botones/boton-zoom-mas.png" alt="boton-control-mas" id= "Gr_CAM_Btn_ZoomIN" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"zoom\": \"in\"  }")' onclick="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 imgMarginTop">
+                            <div class="container">
+                                
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-general.png" alt="plano-general" id= "Gr_CAM_Btn_PresetGen" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"general\"  }")' onclick="" />
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-mesa.png" alt="plano-mesa" id= "Gr_CAM_Btn_PresetMesa" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"mesa\"  }")' onclick="" />
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-izq.png" alt="plano-izquierda" id= "Gr_CAM_Btn_PresetIzda" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"izda\"  }")' onclick="" />
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-der.png" alt="plano-derecha" id= "Gr_CAM_Btn_PresetDcha" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"dcha\"  }")' onclick="" />
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-personalizado-1.png" alt="plano-personalizado1" id= "Gr_CAM_Btn_PresetPer1" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"per1\"  }")' onclick="" />
+                                    <input type="image" class="imgBtnCtrlPlano" src="public/images/Botones/boton-plano-personalizado-2.png" alt="plano-personalizado2" id= "Gr_CAM_Btn_PresetPer2" v-on:click='UI_CTRL_evt("CTRL_CAM", "{  \"preset\": \"per2\"  }")' onclick="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-2 colRight">
+                <div class="row d-flex justify-content-center">
+                    <img class="imgBtnMid" src="public/images/Botones/img-volumen-audio.png" alt="icono-volumen-audio"/>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <input type="range" id="Gr_VOL_Btn_Volume" class="slider rotation range-margin" min="0" max="100" value="0" step="1" id= "Gr_VOL_Btn_Volume" v-on:change='UI_CTRL_evt("CTRL_VOL", "{ \"level\": "+useGetSliVolume()+" }")' onchange="rangeStyle()" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center rightBar-margin">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol+.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Inc" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"inc_level\": 5 }")' onclick="" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol-.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Dec" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"dec_level\": 5 }")' onclick="" />
+                </div>
+                <div class="row no-gutters d-flex justify-content-center">
+                    <input type="image" class="imgBtnR" src="public/images/Botones/boton-vol-mute.png" alt="boton-soloAudio" id= "Gr_VOL_Btn_Mute" v-on:click='UI_CTRL_evt("CTRL_VOL", "{ \"mute\": " +getBtnMute()+ " }")' onclick="" />
+                </div>
+            </div>
+        </div>
+    </b-container>
+    <!---->
+    <!---->
+</div>
+<!---->
+
+<!-- These MUST be in the right order. Note no leading / -->
+<!-- REQUIRED: Socket.IO is loaded only once for all instances
+                 Without this, you don't get a websocket connection -->
+<!--script src="../uibuilder/vendor/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="../uibuilder/vendor/vue/dist/vue.js"></script> <!-- dev version with component compiler -->
+<!-- <script src="../uibuilder/vendor/vue/dist/vue.min.js"></script>   prod version with component compiler -->
+<!-- <script src="../uibuilder/vendor/vue/dist/vue.runtime.min.js"></script>   prod version without component compiler -->
+<!--script src="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue.js"></script-->
+<script src="public/js/loadView.js"></script>
+<script src="public/js/botonera.js"></script>
+<script src="public/js/funciones.js"></script>
+<!-- REQUIRED: Sets up Socket listeners and the msg object -->
+<!-- <script src="./uibuilderfe.js"></script>   //dev version -->
+<!--script src="./uibuilderfe.min.js"></script> <!--    //prod version -->
+<!-- OPTIONAL: You probably want this. Put your custom code here -->
+<script src="index.js"></script>
+
+
+
+</body>
+
+</html>

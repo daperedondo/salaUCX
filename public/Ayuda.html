@@ -1,0 +1,119 @@
+<!doctype html>
+<!-- Note that adding an appcache really speeds things up after the first load
+    You need to amend the appcache file to meet your needs.
+    Don't forget to change the appcache file if you update ANY
+    of the files in it otherwise the old versions will ALWAYS be used.
+<html lang="en" manifest="./uibuilder.appcache">
+-->
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<!--
+    This is the default, template html for uibuilder.
+    It is meant to demonstrate the use of VueJS & bootstrap-vue to dynamically
+    update the ui based on incoming/outgoing messages from/to the
+    Node-RED server.
+
+    You will want to alter this to suite your own needs. To do so,
+    copy this file to <userDir>/uibuilder/<url>/src.
+-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Extron</title>
+    <meta name="description" content="Node-RED UI Builder - VueJS + bootstrap-vue version">
+
+    <link rel="icon" href="./images/node-blue.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#3f51b5">
+
+    <!-- Used if adding to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Node-RED UI Builder">
+
+    <!-- Used if adding to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Node-RED UI Builder">
+
+    <!-- Homescreen icons for Apple mobile use if required
+        <link rel="apple-touch-icon" href="./images/manifest/icon-48x48.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="./images/manifest/icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="96x96" href="./images/manifest/icon-96x96.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="./images/manifest/icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="192x192" href="./images/manifest/icon-192x192.png">
+    -->
+
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="index.css" media="all">
+    <link type="text/css" rel="stylesheet" href="public/css/botonera.css" media="all">
+</head>
+<!--Carga inicial del estado de los botones-->
+<body>
+<!--Inicio de la aplicacion VUE-->
+<div id="appInit" v-cloak>
+    <!--Barra superior-->
+    <div class="topBarClear">
+        <div class="row no-gutters">
+            <div class="col-1">
+                <input type="image" class="imgBtnBack" src="public/images/Botones/boton-cerrar.png" alt="boton-cerrar" onclick="history.back()" />
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </div>
+    <!--Contenido de la aplicacion-->
+    <b-container id="app_container">
+        <div class="row d-flex justify-content-center">
+            <img src="public/images/Botones/boton-ayuda.png" alt="">
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-2">
+                
+            </div>
+            <div class="col-8">
+                <h4>Captura este código QR con tu móvil para ver la ayuda sobre el uso de la sala.</h4>
+            </div>
+            <div class="col-2">
+                
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+                <img src="public/images/Botones/ayuda-qr.PNG" alt="">
+        </div>
+    </b-container>
+    <!---->
+    <!---->
+</div>
+<!---->
+
+<!-- These MUST be in the right order. Note no leading / -->
+<!-- REQUIRED: Socket.IO is loaded only once for all instances
+                 Without this, you don't get a websocket connection -->
+<script src="./socket.io/socket.io.js"></script>
+<!--script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="../uibuilder/vendor/vue/dist/vue.js"></script> <!-- dev version with component compiler -->
+<!-- <script src="../uibuilder/vendor/vue/dist/vue.min.js"></script>   prod version with component compiler -->
+<!-- <script src="../uibuilder/vendor/vue/dist/vue.runtime.min.js"></script>   prod version without component compiler -->
+<!--script src="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue.js"></script-->
+<script src="public/js/loadView.js"></script>
+<script src="public/js/botonera.js"></script>
+<script src="public/js/funciones.js"></script>
+<!-- REQUIRED: Sets up Socket listeners and the msg object -->
+<!-- <script src="./uibuilderfe.js"></script>   //dev version -->
+<!--script src="./uibuilderfe.min.js"></script> <!--    //prod version -->
+<!-- OPTIONAL: You probably want this. Put your custom code here -->
+<script src="index.js"></script>
+
+
+
+</body>
+
+</html>
